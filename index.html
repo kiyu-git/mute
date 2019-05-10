@@ -14,10 +14,10 @@
       <input class="menu-btn" type="checkbox" id="menu-btn" />
       <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
       <ul class="menu">
-        <li><a href="#">Home</a></li>
-        <li><a href="#exhibition">Exhibition</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#member">Member</a></li>
+        <li><a href="#" onclick="fold();">Home</a></li>
+        <li><a href="#exhibition" onclick="fold();">Exhibition</a></li>
+        <li><a href="#about" onclick="fold();">About</a></li>
+        <li><a href="#member" onclick="fold();">Member</a></li>
       </ul>
     </div>
   </header>
@@ -52,6 +52,12 @@
   </section>
 </div>
 <script type="text/javascript">
+  function fold(){
+    var box = document.getElementById("menu-btn");
+    if (box.checked == true) {
+      box.checked = false;
+    }
+  }
 </script>
 </body>
 </html>
