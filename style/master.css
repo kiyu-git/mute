@@ -66,6 +66,10 @@ body {
 .menu{
   font-size: 15pt;
 }
+.section_name{
+  margin-top:-58px;
+  padding-top:58px;
+}
 
 /* menu icon */
 
@@ -149,6 +153,10 @@ body {
   }
   .header .menu-icon {
     display: none;
+  }
+  .section_name{
+    margin-top:-58px;
+    padding-top:58px;
   }
 }
 #logo{
