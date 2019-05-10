@@ -69,6 +69,8 @@ body {
 .section_name{
   margin-top:-58px;
   padding-top:58px;
+  width: calc(100% - 20px);
+  margin: 0 auto;
 }
 
 /* menu icon */
@@ -157,6 +159,8 @@ body {
   .section_name{
     margin-top:-58px;
     padding-top:58px;
+    width: calc(100% - 20px);
+    margin: 0 auto;
   }
 }
 #logo{
@@ -164,6 +168,7 @@ body {
   font-family: 'Dosis', sans-serif;
   text-decoration: none;
   font-size: 30pt;
+  margin: 10px;
 }
 .contents{
   text-align: center;
