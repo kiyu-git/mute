@@ -9,6 +9,7 @@ body {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  font-family: "Sawarabi Mincho";
 }
 
 .container{
@@ -198,4 +199,8 @@ body {
 }
 .mute{
   font-family: 'Dosis', sans-serif;
+  font-size: larger;
+}
+.under_line{
+  color: white;
 }
