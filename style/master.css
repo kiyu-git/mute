@@ -185,18 +185,17 @@ body {
 .height{
   height:500px;
 }
-.webgl{
+.mainVisual{
   position: relative;
+  height: 400px;
 }
-.webgl h1{
+.mainVisual h1{
   position: absolute;
   top: 50%;
   width: 100%;
   transform: translateY(-50%);
 }
-.webgl img{
-  width: 100%;
-}
+
 .mute{
   font-family: 'Dosis', sans-serif;
   font-size: larger;
