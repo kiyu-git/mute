@@ -173,7 +173,7 @@ body {
 }
 .contents{
   text-align: center;
-  padding-top:60px
+  padding-top:58px;
 }
 #ex_title{
   font-size:600%;
@@ -204,5 +204,7 @@ body {
   color: white;
 }
 .title{
-  font-size: 25pt
+  font-size: 25pt;
+  cursor: default;
+  user-select: none;
 }
