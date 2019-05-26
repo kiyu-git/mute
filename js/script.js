@@ -16,8 +16,8 @@ onload = function(){
   gl.clear(gl.COLOR_BUFFER_BIT);
 
   // 頂点シェーダとフラグメントシェーダの生成
-  var v_shader = create_shader(loadFile("../shaders/shader.vert"), gl.VERTEX_SHADER);
-  var f_shader = create_shader(loadFile("../shaders/shader.frag"), gl.FRAGMENT_SHADER);
+  var v_shader = create_shader(loadFile("./shaders/shader.vert"), gl.VERTEX_SHADER);
+  var f_shader = create_shader(loadFile("./shaders/shader.frag"), gl.FRAGMENT_SHADER);
   // プログラムオブジェクトの生成とリンク
   var program = create_program(v_shader, f_shader);
 
