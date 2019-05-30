@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Sawarabi+Mincho" rel="stylesheet">
   <script src="./js/script.js" type="text/javascript"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
   <header class="header">
@@ -19,7 +20,7 @@
         <li><a href="#" onclick="fold();">Home</a></li>
         <li><a href="#exhibition" onclick="fold();">Exhibition</a></li>
         <li><a href="#about" onclick="fold();">About</a></li>
-        <li><a href="#member" onclick="fold();">Member</a></li>
+        <li><a href="#contact" onclick="fold();">Contact</a></li>
       </ul>
     </div>
   </header>
@@ -43,15 +44,34 @@
       <section id="about">
         <div class="section_name">
           <h1>ABOUT</h1>
-          <p><span class="mute">mute </span>は『ミニマルでアナログな美しさ』をコンセプトに制作活動を行うアーティスト集団</p>
-          <p>最新情報・お問い合わせは<a class="under_line" href="https://twitter.com/mute13528557">公式Twitter</a>より</p>
+          <p><span class="mute">mute </span>は『ミニマルでアナログな美しさ』をコンセプトに制作活動を行う</p>
+          <p>最新情報は<a class="under_line" href="https://twitter.com/mute13528557">公式Twitter</a>より</p>
         </div>
       </section>
-      <section id="member">
+      <section id="contact">
         <div class="section_name">
-          <h1>MEMBER</h1>
+          <h1>CONTACT</h1>
+          <p>お問い合わせは<a class="under_line" href="https://twitter.com/mute13528557">公式Twitterr</a>または以下のフォームより</p>
+          <form class="form-style-9">
+            <ul>
+              <li>
+                <input type="text" id="name" class="field-style field-full align-none" required placeholder="お名前（必須）" />
+              </li>
+              <li>
+                <input type="email" id="mail" class="field-style field-full align-none" required placeholder="メールアドレス（必須）" />
+              </li>
+              <li>
+                <input type="text" id="subject" class="field-style field-full align-none" required  placeholder="題名（必須）" />
+              </li>
+              <li>
+                <textarea id="content" class="field-style" required placeholder="内容（必須）"></textarea>
+              </li>
+              <li>
+                <input type="button" value="送信" onclick="send()" />
+              </li>
+            </ul>
+          </form>
         </div>
-        <h3>Coming soon...</h3>
       </section>
     </div>
   </div>
@@ -62,6 +82,49 @@
       box.checked = false;
     }
   }
-  </script>
+
+  function send(){
+    var alert_msg = ""
+    if($('#name').val() == ""){
+      alert_msg += "名前を入力してください\n"
+    }
+    if(!$('#mail').val().match(/.+@.+\..+/)){
+      alert_msg += "メールアドレスが正しくありません\n"
+    }
+    if($('#subject').val() == ""){
+      alert_msg += "題名を入力してください\n"
+    }
+    if($('#content').val() == ""){
+      alert_msg += "内容を入力してください\n"
+    }
+    if(alert_msg == ""){
+      $.ajax({
+        url: "https://docs.google.com/forms/u/3/d/e/1FAIpQLSd2DGBb5IdDskVOSwvoPYF3t0nQx3v2iBl-68FevcWWz2KQRQ/formResponse",
+        data: {
+          "entry.103317298": $('#name').val(),
+          "entry.1903659227": $('#mail').val(),
+          "entry.1029388966": $('#subject').val(),
+          "entry.400006556": $('#content').val(),
+        },
+        type: "POST",
+        dataType: "xml",
+        statusCode: {
+          0: function() {
+            //Success message
+            console.log("success");
+          },
+          200: function() {
+            //Success Message
+          }
+        }
+      })
+      alert("お問い合わせを受け付けました");
+      $("form").find("input, textarea").not(":button").val("")
+    }else{
+      alert(alert_msg);
+    }
+
+  }
+</script>
 </body>
 </html>
