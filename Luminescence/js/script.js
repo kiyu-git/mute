@@ -1,10 +1,10 @@
 
 
-luminescence_load = function(){
+onload = function(){
 
   // canvasエレメントを取得
-  var canvas = document.getElementById('canvas_1');
-  var m = document.getElementById('mainVisual_1');
+  var canvas = document.getElementById('canvas');
+  var m = document.getElementById('mainVisual');
 
   canvas.width = m.clientWidth;
   canvas.height = m.clientHeight;
@@ -66,6 +66,7 @@ luminescence_load = function(){
     gl.uniform2f(u_resolutionLocation, canvas.width, canvas.height);
     gl.uniform2f(u_mouseLocation, mouseX, mouseY);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
 
   })();
 
@@ -130,15 +131,15 @@ luminescence_load = function(){
 
 
   function mouseMove(event) {
-    mouseX = event.offsetX;
-    mouseY = event.offsetY;
+    mouseX = event.pageX;
+    mouseY = event.pageY;
   }
-  canvas.addEventListener("mousemove", mouseMove, false);
+  window.addEventListener("mousemove", mouseMove, false);
 
   function touching(event){
     // TouchList オブジェクトを取得
-    mouseX = event.changedTouches[0].offsetX;
-    mouseY = event.changedTouches[0].offsetY;
+    mouseX = event.changedTouches[0].pageX;
+    mouseY = event.changedTouches[0].pageY;
   }
   canvas.addEventListener("touchmove", touching, false);
   canvas.addEventListener("touchstart", touching, false);
@@ -177,15 +178,6 @@ luminescence_load = function(){
 
   function failedXHR(url) {
     alert('Failed to download "' + url + '"');
-  }
-
-  function clamp(x, min, max) {
-    if (x < min) {
-      return min;
-    } else if (x > max) {
-      return max;
-    }
-    return x;
   }
 
 };

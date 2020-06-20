@@ -1,11 +1,9 @@
 
-
-luminescence_load = function(){
+start = function(){
 
   // canvasエレメントを取得
-  var canvas = document.getElementById('canvas_1');
-  var m = document.getElementById('mainVisual_1');
-
+  var canvas = document.getElementById('canvas');
+  var m = document.getElementById('mainVisual');
   canvas.width = m.clientWidth;
   canvas.height = m.clientHeight;
   // webglコンテキストを取得
@@ -16,8 +14,8 @@ luminescence_load = function(){
   gl.clear(gl.COLOR_BUFFER_BIT);
 
   // 頂点シェーダとフラグメントシェーダの生成
-  var v_shader = create_shader(loadFile("./shaders/shader.vert"), gl.VERTEX_SHADER);
-  var f_shader = create_shader(loadFile("./shaders/shader.frag"), gl.FRAGMENT_SHADER);
+  var v_shader = create_shader(loadFile("./shaders/shader_silence.vert"), gl.VERTEX_SHADER);
+  var f_shader = create_shader(loadFile("./shaders/shader_silence.frag"), gl.FRAGMENT_SHADER);
   // プログラムオブジェクトの生成とリンク
   var program = create_program(v_shader, f_shader);
 
@@ -44,8 +42,10 @@ luminescence_load = function(){
   var u_timeLocation = gl.getUniformLocation(program, 'u_time');
   var u_resolutionLocation = gl.getUniformLocation(program, 'u_resolution');
   var u_mouseLocation = gl.getUniformLocation(program, 'u_mouse');
+  var u_scrollYLocation = gl.getUniformLocation(program, 'u_scrollY');
   var mouseX = -10000;
   var mouseY = -10000;
+  var scrollY = 0;
 
   var startTime = new Date().getTime();
   var framecount = 0;
@@ -65,7 +65,9 @@ luminescence_load = function(){
     gl.uniform1f(u_timeLocation, time);
     gl.uniform2f(u_resolutionLocation, canvas.width, canvas.height);
     gl.uniform2f(u_mouseLocation, mouseX, mouseY);
+    gl.uniform1f(u_scrollYLocation, scrollY);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
 
   })();
 
@@ -121,8 +123,8 @@ luminescence_load = function(){
   // リサイズイベント発生時に実行
   function onResize() {
 
-    canvas.width = m.clientWidth;
-    canvas.height = m.clientHeight;
+    canvas.width = window.innerWidth;
+    canvas.height =  window.innerHeight;
     gl.viewport(0, 0, canvas.width, canvas.height);
 
   }
@@ -130,16 +132,17 @@ luminescence_load = function(){
 
 
   function mouseMove(event) {
-    mouseX = event.offsetX;
-    mouseY = event.offsetY;
+    mouseX = event.pageX;
+    mouseY = event.pageY;
   }
-  canvas.addEventListener("mousemove", mouseMove, false);
+  window.addEventListener("mousemove", mouseMove, false);
 
   function touching(event){
     // TouchList オブジェクトを取得
-    mouseX = event.changedTouches[0].offsetX;
-    mouseY = event.changedTouches[0].offsetY;
+    mouseX = event.changedTouches[0].pageX;
+    mouseY = event.changedTouches[0].pageY;
   }
+  var canvas = document.getElementById('canvas');
   canvas.addEventListener("touchmove", touching, false);
   canvas.addEventListener("touchstart", touching, false);
 
@@ -147,9 +150,57 @@ luminescence_load = function(){
     mouseX = -10000;
     mouseY = -10000;
   }
-  m.addEventListener("touchend", canceled, false);
-  m.addEventListener("touchcancel", canceled, false);
-  m.addEventListener("mouseleave", canceled, false);
+  canvas.addEventListener("touchend", canceled, false);
+  canvas.addEventListener("touchcancel", canceled, false);
+  canvas.addEventListener("mouseleave", canceled, false);
+
+  //requestAnimationFrameを用いて60fpsでスクロールイベントが呼び出されるようにする
+  var ticking = false;
+  function scrolled(){
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        ticking = false;
+        // 処理
+        scrollY = window.pageYOffset;
+        if(scrollY < 0){
+          scrollY = 0;
+        }
+        control_page(scrollY);
+      });
+      ticking = true;
+    }
+  }
+
+  /* kiyu */
+  var flg = 1;
+  var pre_flg = 1;
+  var h = window.innerHeight*1.02;
+  function control_page(Y){
+    if(Y > h){
+      flg = 0;
+    }else{
+      flg = 1;
+      var op = Y/h;
+      $(".title").css("opacity",op);
+    }
+    if(flg != pre_flg){
+      pre_flg = flg;
+      if(flg == 0){
+        $(".mainVisual").addClass("adjust_main");
+        $(".info").addClass("adjust_info");
+        $(".header").removeClass("header_hide");
+        $(".header").addClass("header_show");
+      }else{
+        $(".mainVisual").removeClass("adjust_main");
+        $(".info").removeClass("adjust_info");
+        $(".header").removeClass("header_show");
+        $(".header").addClass("header_hide");
+      }
+    }
+  }
+
+  window.addEventListener("scroll",scrolled, false);
+
 
   //読み込み用XMR
   function loadFile(url) {
@@ -179,13 +230,5 @@ luminescence_load = function(){
     alert('Failed to download "' + url + '"');
   }
 
-  function clamp(x, min, max) {
-    if (x < min) {
-      return min;
-    } else if (x > max) {
-      return max;
-    }
-    return x;
-  }
 
 };

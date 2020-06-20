@@ -1,5 +1,5 @@
 precision highp float;
-
+    
 #define PI 3.14159265359
 
 uniform vec2 u_resolution;
@@ -115,7 +115,7 @@ float circle(in vec2 _st, in float _radius, in vec2 pos){
     offSet = u_resolution.y / u_resolution.x;
     offSet = max(offSet, 1.);
     vec2 dist = _st -vec2(pos.x, offSet-pos.y);
-
+    
     return 1.-smoothstep(_radius-(_radius*0.5),
                         _radius+(_radius*0.5),
                         dot(dist,dist)*4.0);
@@ -128,31 +128,31 @@ vec3 hsv2rgb(vec3 c) {
 }
 
 void main() {
-
+    
     vec2 st = gl_FragCoord.xy/min(u_resolution.x, u_resolution.y);
     vec2 mouse = u_mouse/min(u_resolution.x, u_resolution.y);
 
     float circlePct = circle(st, 0.5, mouse);
-
+    
     float noiseScale = 0.25;
     st.x += nSsnoise(st*noiseScale + u_time*0.1 + 20.) * 0.07;
     st.y += nSsnoise(st*noiseScale + u_time*0.1 + 98.408) *0.07;
-
+        
     st *= 5.;
     st.x += step(1., mod(st.y,2.0)) * 0.5;
-    vec2 stf = fract(st);
-
+    vec2 stf = fract(st); 
+    
     vec3 cyanHsb = vec3(0.532,1.,1.);
     cyanHsb.x += (random(vec2(floor(st)*10.))-0.5) * 0.134;
     float cyanLight = circleBlur2(stf, 0.02, vec2(0.5)) * 1.5;
     vec3 cyan = hsv2rgb(cyanHsb) * cyanLight;
     float whiteLight = circleBlur1(stf, 0.010, vec2(0.5));
     vec3 white = vec3(0.960,0.940,0.947) * whiteLight * 1.5;
-
+    
     vec3 color = vec3(0.);
     float luminance = normalizedSin(u_time * 0.916  +  random(vec2(floor(st)*60.))*PI*2. );
     color = vec3(cyan + white) * luminance;
-
+    
     color = min(color, 1.);
     color *= random(vec2(floor(vec2(st.x,st.y))*50. + u_time*0.00001 + 100.)) ;
     //マウスで光らせる
