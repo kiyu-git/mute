@@ -21,10 +21,11 @@ function language(){
   }
 }
 $(".en").hide();
-window.onload = function(){
-  if(location.pathname == "/" || location.pathname == "/index.html"){
-    start();
+$(document).ready(function(){
+  if(location.pathname == "/" || location.pathname == "/html/" || location.pathname.indexOf("index")!=-1){
+    // untitled();
   }else{
+    silence();
     luminescence_load();
   }
   var lan = "jp"
@@ -61,4 +62,4 @@ window.onload = function(){
     }
     setTimeout(action,100);
   });
-}
+});

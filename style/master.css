@@ -11,10 +11,31 @@ body {
   vertical-align: baseline;
   font-family: "Sawarabi Mincho";
 }
+footer{
+  height: 70px;
+}
 
 .container{
   max-width: 1100px;
   margin: 0 auto;
+}
+/* for photo */
+#mainVisual_untitled {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+#mainVisual_untitled img{
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.title{
+  font-size: 6vw !important;
+}
+
+@media (min-width: 1100px) {
+  .title{
+    font-size: 60pt !important;
+  }
 }
 
 /* header */
@@ -30,9 +51,9 @@ body {
 .header_show{
   transform: translateY(0%);
 }
-.header_hide{
+/* .header_hide{
   transform: translateY(-100%);
-}
+} */
 
 .header ul {
   margin: 0;
@@ -196,15 +217,14 @@ body {
   height:500px;
 }
 .mainVisual{
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  left: 0;
-  transition: 1s;
+  /* height: 500px; // photo*/
+  width: 100%;
+  position: relative;
 }
 .mainVisual h1{
   position: absolute;
-  top: 50%;
+  /* top: 50%; */
+  top: 40%;
   width: 100%;
   transform: translateY(-50%);
 }
@@ -223,7 +243,6 @@ body {
   font-size: 25pt;
   cursor: default;
   user-select: none;
-  opacity: 0;
 }
 .title_op1{
   font-size: 25pt;
@@ -308,15 +327,15 @@ textarea{
   height: 100%;
 }
 
-.info{
+/* .info{
   transform: translate(0, 203vh);
   transition: 1s;
-}
+} */
 .adjust_main{
-  transform: translateY(-100vh);
+  /* transform: translateY(-100vh); */
 }
 .adjust_info{
-  transform: translateY(calc(50% + 58px));
+  /* transform: translateY(calc(50% + 58px)); */
 }
 
 body::-webkit-scrollbar{

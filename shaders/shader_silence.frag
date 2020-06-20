@@ -36,7 +36,7 @@ void main() {
     float pct = nSin(sta.x) * nSin(sta.y + PI*1.5) * scrollY;
 
     vec3 color = vec3(1.);
-    float randNoise = random(st * 1.4 + vec2(0.,u_mouse.x*0.1));
+    float randNoise = random(st * 1.4 + vec2(0.,u_time));
 
     color -= randNoise * pct;
 

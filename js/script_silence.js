@@ -1,9 +1,9 @@
 
-start = function(){
+silence = function(){
 
   // canvasエレメントを取得
-  var canvas = document.getElementById('canvas');
-  var m = document.getElementById('mainVisual');
+  var canvas = document.getElementById('silence_canvas_1');
+  var m = document.getElementById('silence_mainVisual_1');
   canvas.width = m.clientWidth;
   canvas.height = m.clientHeight;
   // webglコンテキストを取得
@@ -58,7 +58,6 @@ start = function(){
     if (framecount % 2 == 0) {
       return;
     }
-
     // 時間管理
     var time = (new Date().getTime() - startTime) * 0.001;
     // send the data to the GPU
@@ -69,7 +68,7 @@ start = function(){
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
 
-  })();
+  }());
 
 
   // シェーダを生成する関数
@@ -123,8 +122,8 @@ start = function(){
   // リサイズイベント発生時に実行
   function onResize() {
 
-    canvas.width = window.innerWidth;
-    canvas.height =  window.innerHeight;
+    canvas.width = m.clientWidth;
+    canvas.height =  m.clientHeight;
     gl.viewport(0, 0, canvas.width, canvas.height);
 
   }
@@ -142,7 +141,7 @@ start = function(){
     mouseX = event.changedTouches[0].pageX;
     mouseY = event.changedTouches[0].pageY;
   }
-  var canvas = document.getElementById('canvas');
+  var canvas = document.getElementById('silence_canvas_1');
   canvas.addEventListener("touchmove", touching, false);
   canvas.addEventListener("touchstart", touching, false);
 
@@ -161,43 +160,45 @@ start = function(){
       requestAnimationFrame(function() {
         ticking = false;
         // 処理
-        scrollY = window.pageYOffset;
+        var clientRect = m.getBoundingClientRect() ;
+        scrollY = window.pageYOffset - (clientRect.top) - 750;
+        // console.log(scrollY);
         if(scrollY < 0){
           scrollY = 0;
         }
-        control_page(scrollY);
+        // control_page(scrollY);
       });
       ticking = true;
     }
   }
 
   /* kiyu */
-  var flg = 1;
-  var pre_flg = 1;
-  var h = window.innerHeight*1.02;
-  function control_page(Y){
-    if(Y > h){
-      flg = 0;
-    }else{
-      flg = 1;
-      var op = Y/h;
+var flg = 1;
+var pre_flg = 1;
+var h = window.innerHeight*1.02;
+function control_page(Y){
+  if(Y > h){
+    flg = 0;
+  }else{
+    flg = 1;
+    var op = Y/h;
       $(".title").css("opacity",op);
-    }
-    if(flg != pre_flg){
-      pre_flg = flg;
-      if(flg == 0){
-        $(".mainVisual").addClass("adjust_main");
-        $(".info").addClass("adjust_info");
-        $(".header").removeClass("header_hide");
-        $(".header").addClass("header_show");
-      }else{
-        $(".mainVisual").removeClass("adjust_main");
-        $(".info").removeClass("adjust_info");
-        $(".header").removeClass("header_show");
-        $(".header").addClass("header_hide");
-      }
+  }
+  if(flg != pre_flg){
+       pre_flg = flg;
+    if(flg == 0){
+      $(".mainVisual").addClass("adjust_main");
+      $(".info").addClass("adjust_info");
+      $(".header").removeClass("header_hide");
+      $(".header").addClass("header_show");
+    }else{
+      $(".mainVisual").removeClass("adjust_main");
+      $(".info").removeClass("adjust_info");
+      $(".header").removeClass("header_show");
+      $(".header").addClass("header_hide");
     }
   }
+}
 
   window.addEventListener("scroll",scrolled, false);
 
